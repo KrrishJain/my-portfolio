@@ -1,22 +1,22 @@
-'use client'
+"use client";
 // pages/index.js or app/page.js (depending on your Next.js version)
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function PortfolioConstruction() {
-  const [dots, setDots] = useState('');
-  
+  const [dots, setDots] = useState("");
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setDots(prev => prev.length >= 3 ? '' : prev + '.');
+      setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
     }, 500);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center px-4 pt-10">
       <div className="max-w-4xl w-full text-center">
-        
         {/* No Entry Construction Board */}
         <div className="mb-12">
           <div className="relative inline-block">
@@ -40,7 +40,7 @@ export default function PortfolioConstruction() {
                 </p>
               </div>
             </div>
-            
+
             {/* Caution tape */}
             <div className="absolute -top-2 -left-2 w-20 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 transform -rotate-12">
               <div className="h-full bg-repeating-linear-gradient bg-yellow-400 flex items-center justify-center">
@@ -56,8 +56,13 @@ export default function PortfolioConstruction() {
         </div>
 
         {/* Builder SVG Illustration */}
-        <div className='w-full flex justify-center'>
-          <img src='builder.webp' className='h-96' />
+        <div className="w-full flex justify-center">
+          <Image
+            src="/builder.webp"
+            alt="builder"
+            width={250}
+            height={250}
+          />
         </div>
 
         {/* Status message */}
@@ -67,18 +72,13 @@ export default function PortfolioConstruction() {
               🔨 Hard at work building something awesome{dots}
             </h2>
             <p className="text-gray-600 text-lg mb-6">
-              I'm currently putting the finishing touches on my digital showcase. 
-              Thanks for your patience while I hammer out the details!
+              I&apos;m currently putting the finishing touches on my digital
+              showcase. Thanks for your patience while I hammer out the details!
             </p>
-            
 
-            
-            <p className="text-sm text-gray-500">
-              Expected completion: Soon™
-            </p>
+            <p className="text-sm text-gray-500">Expected completion: Soon™</p>
           </div>
         </div>
-
 
         {/* Footer */}
         <footer className="text-gray-500 text-sm">
