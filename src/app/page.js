@@ -1,90 +1,113 @@
 "use client";
-// pages/index.js or app/page.js (depending on your Next.js version)
-import { useState, useEffect } from "react";
-import Image from "next/image";
 
-export default function PortfolioConstruction() {
-  const [dots, setDots] = useState("");
+import { useRef } from "react";
+import Navbar from "@/components/Navbar";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Card from "@/components/Card";
+import { projectDetails } from "@/data/projectDetails";
+import Footer from "@/components/Footer";
+import Link from "next/link";
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDots((prev) => (prev.length >= 3 ? "" : prev + "."));
-    }, 500);
+gsap.registerPlugin(ScrollTrigger);
 
-    return () => clearInterval(interval);
+const Home = () => {
+  const zoomRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.fromTo(
+      zoomRef.current,
+      { width: "90%" },
+      {
+        width: "100vw",
+        duration: 2,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: zoomRef.current,
+          start: "top 80%",
+          end: "bottom 70%",
+          scrub: true,
+        },
+      }
+    );
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center px-4 pt-10">
-      <div className="max-w-4xl w-full text-center">
-        {/* No Entry Construction Board */}
-        <div className="mb-12">
-          <div className="relative inline-block">
-            {/* Construction Board Background */}
-            <div className="bg-gradient-to-r from-orange-400 to-red-500 px-8 py-6 rounded-lg shadow-2xl border-4 border-red-600 transform -rotate-2">
-              <div className="bg-white rounded-lg px-6 py-4 border-2 border-red-500">
-                <div className="flex items-center justify-center mb-2">
-                  {/* No Entry Symbol */}
-                  <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-3">
-                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                      <div className="w-6 h-1 bg-red-500 transform rotate-45 absolute"></div>
-                      <div className="w-6 h-1 bg-red-500 transform -rotate-45 absolute"></div>
-                    </div>
-                  </div>
-                  <h1 className="text-2xl md:text-3xl font-bold text-red-600">
-                    PORTFOLIO UNDER CONSTRUCTION
-                  </h1>
-                </div>
-                <p className="text-red-500 font-medium text-sm">
-                  Please excuse our digital dust!
-                </p>
-              </div>
-            </div>
-
-            {/* Caution tape */}
-            <div className="absolute -top-2 -left-2 w-20 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 transform -rotate-12">
-              <div className="h-full bg-repeating-linear-gradient bg-yellow-400 flex items-center justify-center">
-                <span className="text-black font-bold text-xs">CAUTION</span>
-              </div>
-            </div>
-            <div className="absolute -bottom-2 -right-2 w-20 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 transform rotate-12">
-              <div className="h-full bg-repeating-linear-gradient bg-yellow-400 flex items-center justify-center">
-                <span className="text-black font-bold text-xs">CAUTION</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Builder SVG Illustration */}
-        <div className="w-full flex justify-center">
-          <Image
-            src="/builder.webp"
-            alt="builder"
-            width={250}
-            height={250}
-          />
-        </div>
-
-        {/* Status message */}
-        <div className="mb-12">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-orange-200">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-              🔨 Hard at work building something awesome{dots}
-            </h2>
-            <p className="text-gray-600 text-lg mb-6">
-              I&apos;m currently putting the finishing touches on my digital
-              showcase. Thanks for your patience while I hammer out the details!
+    <main className="relative overflow-hidden">
+      {/* Hero Section */}
+      <div
+        className="w-full h-screen py-2"
+        style={{
+          backgroundImage: "url('/background.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <Navbar />
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="w-2xl space-y-3">
+            <h1 className="text-xl md:text-2xl text-center text-black">
+              Not Just Code, I Build Experiences
+            </h1>
+            <p className="md:text-base text-center text-[#4D4D4D] ">
+              Interactive journeys, built with intent.
             </p>
-
-            <p className="text-sm text-gray-500">Expected completion: Soon™</p>
+            <div className="flex flex-col md:flex-row mt-5 md:mt-0 justify-center items-center gap-4">
+              <Link href="/work/1">
+                <button className="bg-accent hover:bg-accent/50 cursor-pointer transition-all duration-300 px-6 font-medium py-2 rounded-full text-xs">
+                  Explore Work
+                </button>
+              </Link>
+              <Link href="/contact">
+                <button className="flex items-center gap-4 bg-primary hover:bg-primary/80 cursor-pointer transition-all duration-300   px-6 font-medium py-2 rounded-full text-xs text-white">
+                  Let's Connect
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="text-gray-500 text-sm">
-          <p>© 2025 Krish Jain - Building dreams, one commit at a time 🚀</p>
-        </footer>
       </div>
-    </div>
+
+      {/* Zoom Animated Section */}
+      <div className="flex justify-center items-center">
+        <div
+          ref={zoomRef}
+          className="bg-primary rounded-3xl px-5 md:px-[10vw] py-[10vh]"
+          style={{ width: "90%" }}
+        >
+          <h2 className="text-white text-xs">Work</h2>
+          <p className="text-white text-[28px] md:text-[32px] w-full md:max-w-lg mt-5 font-">
+            Experience with a variety of Projects and industries.
+          </p>
+          <div className="flex justify-start gap-[5%] space-y-10 flex-wrap mt-10">
+            {projectDetails.map((project) => (
+              <Card key={project.id} {...project} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div className="w-full min-h-[60vh] mt-10 flex justify-center items-center">
+        <div className="w-2xl space-y-2 text-center">
+          <h1 className="text-[30px] md:text-[40px] text-center text-black">
+            Ready to start something impactful?
+          </h1>
+          <p className="md:text-base text-center text-[#4D4D4D]">
+            Let’s collaborate and create engaging digital experiences.
+          </p>
+          <div className="flex mt-5  justify-center items-center gap-4">
+            <button className="bg-accent hover:bg-accent/50 cursor-pointer transition-all duration-300 px-6 font-medium py-2 rounded-full text-xs">
+              See My Work in Action
+            </button>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </main>
   );
-}
+};
+
+export default Home;

@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
+/* Define raw values as CSS variables on root */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+  --color-primary: #1A1A1A;
+  --color-secondary: #EDEDED;
+  --color-accent: #E6E6E6;
+  --color-background: #F5F5F5;
+  --color-text: #4D4D4D;
+
+  /* Font family */
+  --font-sans: 'Inter', sans-serif;
+
+  /* Border radius */
+  --radius: 24;
+
+  /* Font sizes */
+  --text-xs: 20px;
+  --text-base: 24px;
+  --text-xl: 28px;
+  --text-2xl: 44px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Map to Tailwind theme tokens */
+@theme {
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-background: var(--color-background);
+  --color-text: var(--color-text);
+
+  --font-sans: var(--font-sans);
+
+  --radius: var(--radius);
+
+  --text-xs: var(--text-xs);
+  --text-base: var(--text-base);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Optionally: use variables in custom styles */
+/* @layer components {
+  body {
+    @apply bg-background text-text font-sans;
   }
+} */
+/* styles/globals.css */
+/* styles/globals.css */
+.mySwiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.mySwiper .swiper-slide > div {
+  width: 100% !important; /* Override lg:w-[45%] for carousel */
+}
+
+/* Ensure navigation buttons are clickable */
+.swiper-prev,
+.swiper-next {
+  pointer-events: auto;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
