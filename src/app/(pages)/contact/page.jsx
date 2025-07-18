@@ -1,3 +1,4 @@
+'use client';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React from "react";
@@ -7,16 +8,37 @@ import { IoLogoLinkedin } from "react-icons/io5";
 import { IoMdSend } from "react-icons/io";
 
 const ContactPage = () => {
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     alert("Form submitted! (Email feature disabled for now)");
-//     e.target.reset();
-//   };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const formBody = new URLSearchParams({
+      "entry.839337160": formData.get("name") || "", // Name
+      "entry.1045781291": formData.get("email") || "", // Email
+      "entry.2005620554": formData.get("message") || "", // Message
+    }).toString();
+
+    try {
+      const response = await fetch(process.env.GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors", // Required for Google Forms
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formBody,
+      });
+      e.target.reset(); // Clear the form
+      alert("Form submitted! Please check the Google Form for your response.");
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert("There was an error submitting the form. Please try again.");
+    }
+  };
 
   return (
     <div className="lg:h-screen overflow-y-hidden">
       <Navbar currentPage="Contact" />
-      <div className="flex  lg:flex-row justify-center h-full lg:gap-6 mx-2 lg:mx-10 mt-22">
+      <div className="flex lg:flex-row justify-center h-full lg:gap-6 mx-2 lg:mx-10 mt-22">
         <div className="w-full lg:w-[60%] lg:h-[100%] rounded-3xl space-y-4 hidden lg:block">
           <div className="flex items-center justify-center bg-[#C2C5BA] rounded-3xl lg:h-[72%] overflow-hidden">
             <div className="w-full h-full flex items-end justify-center">
@@ -63,7 +85,7 @@ const ContactPage = () => {
             <h2 className="text-xl font-semibold text-white">Get in touch!</h2>
             <p className="text-sm text-[#CDCDCB]">Reply as soon as possible</p>
           </div>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="text-sm text-[#CDCDCB]">
                 Name *
@@ -105,7 +127,6 @@ const ContactPage = () => {
               className="w-full bg-accent flex justify-center items-center gap-2 text-xs text-black rounded-2xl py-3 hover:bg-gray-600 transition-colors"
             >
               Send Message <IoMdSend />
-
             </button>
           </form>
         </div>
