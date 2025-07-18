@@ -14,8 +14,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const zoomRef = useRef(null);
+  const heroTextRef = useRef(null);
 
   useGSAP(() => {
+    // Existing zoom animation for the Work section
     gsap.fromTo(
       zoomRef.current,
       { width: "90%" },
@@ -31,10 +33,25 @@ const Home = () => {
         },
       }
     );
+
+    // New Hero Section text animation
+    const heroElements = heroTextRef.current.children;
+    gsap.fromTo(
+      heroElements,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        ease: "power3.out",
+        stagger: 0.2,
+        delay: 0.3,
+      }
+    );
   }, []);
 
   return (
-    <main className="relative overflow-hidden">
+    <main className="relative overflow-hidden bg">
       {/* Hero Section */}
       <div
         className="w-full h-screen py-2"
@@ -47,11 +64,11 @@ const Home = () => {
       >
         <Navbar />
         <div className="w-full h-full flex justify-center items-center">
-          <div className="w-2xl space-y-3">
+          <div ref={heroTextRef} className="w-2xl space-y-3">
             <h1 className="text-xl md:text-2xl text-center text-black">
               Not Just Code, I Build Experiences
             </h1>
-            <p className="md:text-base text-center text-[#4D4D4D] ">
+            <p className="md:text-base text-center text-[#4D4D4D]">
               Interactive journeys, built with intent.
             </p>
             <div className="flex flex-col md:flex-row mt-5 md:mt-0 justify-center items-center gap-4">
@@ -61,7 +78,7 @@ const Home = () => {
                 </button>
               </Link>
               <Link href="/contact">
-                <button className="flex items-center gap-4 bg-primary hover:bg-primary/80 cursor-pointer transition-all duration-300   px-6 font-medium py-2 rounded-full text-xs text-white">
+                <button className="flex items-center gap-4 bg-primary hover:bg-primary/80 cursor-pointer transition-all duration-300 px-6 font-medium py-2 rounded-full text-xs text-white">
                   Let's Connect
                 </button>
               </Link>
@@ -69,8 +86,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* Zoom Animated Section */}
+      {/* Work Section */}
       <div className="flex justify-center items-center">
         <div
           ref={zoomRef}
@@ -78,7 +94,7 @@ const Home = () => {
           style={{ width: "90%" }}
         >
           <h2 className="text-white text-xs">Work</h2>
-          <p className="text-white text-[28px] md:text-[32px] w-full md:max-w-lg mt-5 font-">
+          <p className="text-white text-[28px] md:text-[32px] w-full md:max-w-lg mt-5">
             Experience with a variety of Projects and industries.
           </p>
           <div className="flex justify-start gap-[5%] space-y-10 flex-wrap mt-10">
@@ -88,7 +104,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* CTA Section */}
       <div className="w-full min-h-[60vh] mt-10 flex justify-center items-center">
         <div className="w-2xl space-y-2 text-center">
@@ -98,7 +113,7 @@ const Home = () => {
           <p className="md:text-base text-center text-[#4D4D4D]">
             Let’s collaborate and create engaging digital experiences.
           </p>
-          <div className="flex mt-5  justify-center items-center gap-4">
+          <div className="flex mt-5 justify-center items-center gap-4">
             <button className="bg-accent hover:bg-accent/50 cursor-pointer transition-all duration-300 px-6 font-medium py-2 rounded-full text-xs">
               See My Work in Action
             </button>

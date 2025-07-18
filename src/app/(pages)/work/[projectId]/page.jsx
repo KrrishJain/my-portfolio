@@ -1,19 +1,18 @@
-// app/work/[id]/page.jsx
 "use client";
-import React, { useRef, useEffect } from "react";
+
+import React, { useRef } from "react";
 import { useParams } from "next/navigation";
 import { FiExternalLink } from "react-icons/fi";
-import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Navbar from "@/components/Navbar";
 import { projectDetails } from "@/data/projectDetails";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ViewOtherProjects from "@/components/ViewOtherProjects";
 
-const ProjectPage =  () => {
-  const { projectId } =  useParams();
-  console.log(projectId);
-  
+const ProjectPage = () => {
+  const { projectId } = useParams();
   const project = projectDetails.find((p) => p.id === Number(projectId));
 
   const projectOverviewRef = useRef(null);
@@ -21,31 +20,77 @@ const ProjectPage =  () => {
   const challengesRef = useRef(null);
   const keyTakeawaysRef = useRef(null);
   const navButtonRefs = useRef([]);
+  const headerRef = useRef(null);
+  const imageRef = useRef(null);
 
   const sections = [
     { id: "project-overview", label: "Project Overview", ref: projectOverviewRef },
     { id: "role-responsibility", label: "My Role and Responsibility", ref: roleResponsibilityRef },
     { id: "challenges", label: "Challenges", ref: challengesRef },
-    { id: "key-takeaways", label: "Key takeaways", ref: keyTakeawaysRef },
+    { id: "key-takeaways", label: "Key Takeaways", ref: keyTakeawaysRef },
   ];
 
-  useEffect(() => {
-    navButtonRefs.current.forEach((btn, index) => {
-      if (btn) {
-        const handleMouseEnter = () => {
-          gsap.to(btn, { scale: 1.05, y: -2, duration: 0.3, ease: "power2.out" });
-        };
-        const handleMouseLeave = () => {
-          gsap.to(btn, { scale: 1, y: 0, duration: 0.3, ease: "power2.out" });
-        };
-        btn.addEventListener("mouseenter", handleMouseEnter);
-        btn.addEventListener("mouseleave", handleMouseLeave);
-        return () => {
-          btn.removeEventListener("mouseenter", handleMouseEnter);
-          btn.removeEventListener("mouseleave", handleMouseLeave);
-        };
+  useGSAP(() => {
+    // Animate header (title, description, and GitHub link)
+    gsap.fromTo(
+      headerRef.current.children,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.2,
+        delay: 0.2,
       }
-    });
+    );
+
+    // Animate image
+    gsap.fromTo(
+      imageRef.current,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.4,
+      }
+    );
+
+    // Animate content sections (slide in from left)
+    const contentSections = [
+      projectOverviewRef.current,
+      roleResponsibilityRef.current,
+      challengesRef.current,
+      keyTakeawaysRef.current,
+    ];
+    gsap.fromTo(
+      contentSections,
+      { opacity: 0, x: -50 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.3,
+        delay: 0.6,
+      }
+    );
+
+    // Animate navigation buttons (fade in)
+    gsap.fromTo(
+      navButtonRefs.current,
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.1,
+        delay: 0.8,
+      }
+    );
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -72,15 +117,17 @@ const ProjectPage =  () => {
     <div className="min-h-screen bg-white">
       <Navbar currentPage="Work" />
       <div className="px-4 md:px-12 py-22">
-        <div className="mb-8 md:mx-8">
+        <div ref={headerRef} className="mb-8 md:mx-8">
           <div className="flex items-center gap-3 mb-4">
             <h1 className="text-3xl font-bold text-black">{project.title}</h1>
-            <Link href={project.github}><FiExternalLink  className="w-6 h-6 text-[#4D4D4D]" /></Link>
+            <Link href={project.github}>
+              <FiExternalLink className="w-6 h-6 text-[#4D4D4D]" />
+            </Link>
           </div>
           <p className="text-[#4D4D4D] max-w-md">{project.description}</p>
         </div>
 
-        <div className="mb-12 md:mx-4">
+        <div ref={imageRef} className="mb-12 md:mx-4">
           <div className="relative w-full">
             <img
               src={project.image}
@@ -108,7 +155,7 @@ const ProjectPage =  () => {
               </section>
 
               <section ref={keyTakeawaysRef}>
-                <h2 className="text-xl font-medium mb-3">Key takeaways</h2>
+                <h2 className="text-xl font-medium mb-3">Key Takeaways</h2>
                 <p className="text-[#4D4D4D] leading-relaxed">{project.takeaways}</p>
               </section>
             </div>

@@ -49,7 +49,9 @@ const Navbar = ({ currentPage = 'Home' }) => {
           {/* Logo Section */}
           <div className='flex items-center text-black'>
             {/* <Image src="/logo.png" alt="logo" width={32} height={32} className='md:w-[40px] md:h-[40px]' /> */}
-            <h1 className='font-medium ml-2 text-base'>Krish Jain</h1>
+            <Link href="/">
+              <h1 className='font-medium ml-2 text-base'>Krish Jain</h1>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -59,7 +61,7 @@ const Navbar = ({ currentPage = 'Home' }) => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`font-medium text-xs py-3 px-5 rounded-2xl transition-all duration-200 block ${
+                    className={`font-medium text-xs py-2 px-3 rounded-2xl transition-all duration-200 block ${
                       isActive(item.name)
                         ? 'bg-black text-white drop-shadow-lg' 
                         : 'cursor-pointer hover:bg-black/5'
