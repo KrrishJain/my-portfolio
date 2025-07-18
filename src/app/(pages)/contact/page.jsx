@@ -8,31 +8,23 @@ import { IoLogoLinkedin } from "react-icons/io5";
 import { IoMdSend } from "react-icons/io";
 
 const ContactPage = () => {
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const formBody = new URLSearchParams({
-      "entry.839337160": formData.get("name") || "", // Name
-      "entry.1045781291": formData.get("email") || "", // Email
-      "entry.2005620554": formData.get("message") || "", // Message
-    }).toString();
-
-    try {
-      const response = await fetch(process.env.GOOGLE_FORM_URL, {
+    const response = await fetch(
+      "https://docs.google.com/forms/u/0/d/e/1FAIpQLSdULQiU6WPiNDy6sudseB5DsQvZKfmRfHc8jX7lrMUvbjjbJg/formResponse",
+      {
         method: "POST",
-        mode: "no-cors", // Required for Google Forms
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formBody,
-      });
-      e.target.reset(); // Clear the form
-      alert("Form submitted! Please check the Google Form for your response.");
-    } catch (error) {
-      console.error("Submission failed:", error);
-      alert("There was an error submitting the form. Please try again.");
-    }
+        mode: "no-cors", // Google Forms requires no-cors for submission
+        body: new URLSearchParams({
+          "entry.839337160": formData.get("name"), // Name
+          "entry.1045781291": formData.get("email"), // Email
+          "entry.2005620554": formData.get("message"), // Message
+        }),
+      }
+    );
+    e.target.reset(); // Clear the form
+    alert("Form submitted! Please check the Google Form for your response.");
   };
 
   return (
