@@ -1,7 +1,7 @@
 'use client';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaInstagram, FaGithub, FaEnvelope } from "react-icons/fa";
 import { IoLogoLinkedin } from "react-icons/io5";
@@ -15,6 +15,64 @@ const ContactPage = () => {
   const leftSectionRef = useRef(null);
   const rightSectionRef = useRef(null);
   const formRef = useRef(null);
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' }); // Reset form
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Auto-hide status messages after 5 seconds
+  useEffect(() => {
+    if (submitStatus) {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000); // Hide after 5 seconds
+
+      return () => clearTimeout(timer); // Cleanup timer on component unmount or status change
+    }
+  }, [submitStatus]);
 
   useGSAP(() => {
     // Animate left section (form, slides in from left)
@@ -116,7 +174,17 @@ const ContactPage = () => {
               <h2 className="text-xl font-semibold text-white">Get in touch!</h2>
               <p className="text-sm text-[#CDCDCB]">Reply as soon as possible</p>
             </div>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {submitStatus === 'success' && (
+                <div className="bg-green-600 text-white p-3 rounded-lg text-sm">
+                  Message sent successfully! I'll get back to you soon.
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="bg-red-600 text-white p-3 rounded-lg text-sm">
+                  Failed to send message. Please try again or contact me directly.
+                </div>
+              )}
               <div>
                 <label htmlFor="name" className="text-sm text-[#CDCDCB]">
                   Name *
@@ -125,8 +193,11 @@ const ContactPage = () => {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   required
-                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600 disabled:opacity-50"
                 />
               </div>
               <div>
@@ -137,8 +208,11 @@ const ContactPage = () => {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
-                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600 disabled:opacity-50"
                 />
               </div>
               <div>
@@ -148,16 +222,20 @@ const ContactPage = () => {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
                   required
                   rows="5"
-                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  disabled={isSubmitting}
+                  className="w-full bg-[#262626] text-gray-200 border-none rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-gray-600 disabled:opacity-50"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-accent flex justify-center items-center gap-2 text-xs text-black rounded-2xl py-3 hover:bg-gray-600 transition-colors"
+                disabled={isSubmitting}
+                className="w-full bg-accent flex justify-center items-center gap-2 text-xs text-black rounded-2xl py-3 hover:bg-accent/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message <IoMdSend />
+                {isSubmitting ? 'Sending...' : 'Send Message'} <IoMdSend />
               </button>
             </form>
           </div>

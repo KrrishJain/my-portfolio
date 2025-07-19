@@ -17,6 +17,7 @@ const ProjectPage = () => {
 
   const projectOverviewRef = useRef(null);
   const roleResponsibilityRef = useRef(null);
+  const techStackRef = useRef(null);
   const challengesRef = useRef(null);
   const keyTakeawaysRef = useRef(null);
   const navButtonRefs = useRef([]);
@@ -26,6 +27,7 @@ const ProjectPage = () => {
   const sections = [
     { id: "project-overview", label: "Project Overview", ref: projectOverviewRef },
     { id: "role-responsibility", label: "My Role and Responsibility", ref: roleResponsibilityRef },
+    { id: "tech-stack", label: "Tech Stack", ref: techStackRef },
     { id: "challenges", label: "Challenges", ref: challengesRef },
     { id: "key-takeaways", label: "Key Takeaways", ref: keyTakeawaysRef },
   ];
@@ -62,6 +64,7 @@ const ProjectPage = () => {
     const contentSections = [
       projectOverviewRef.current,
       roleResponsibilityRef.current,
+      techStackRef.current,
       challengesRef.current,
       keyTakeawaysRef.current,
     ];
@@ -147,6 +150,11 @@ const ProjectPage = () => {
               <section ref={roleResponsibilityRef}>
                 <h2 className="text-xl font-medium mb-3">My Role and Responsibility</h2>
                 <p className="text-[#4D4D4D] leading-relaxed">{project.role}</p>
+              </section>
+
+              <section ref={techStackRef}>
+                <h2 className="text-xl font-medium mb-3">Tech Stack</h2>
+                <p className="text-[#4D4D4D] leading-relaxed">{project.tech}</p>
               </section>
 
               <section ref={challengesRef}>

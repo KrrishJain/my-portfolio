@@ -2,66 +2,39 @@
 export const projectDetails = [
   {
     id: 1,
-    title: 'GameHubStation',
+    title: "GameHubStation",
     description:
-      'A platform where users can discover and book gaming cafes nearby, view available games, and connect with fellow gamers.',
-    image: '/templateImage.png',
-    link: '/work/1',
-    github: 'https://github.com/krisshJain/gamehubstation',
+      "A powerful backend API that connects gamers with gaming cafes using real-time booking and geolocation features. Station Masters can register multiple branches, upload game inventories, and manage bookings, while Station Mates enjoy intuitive search and instant reservations.",
+    image: "/templateImage.png",
+    link: "/work/1",
+    github: "https://github.com/KrrishJain/GameHubStation",
     overview:
-      'GameHubStation makes offline gaming more accessible by letting users find and book gaming cafes easily. It includes a user-friendly interface, booking logic based on hours, and cafe management for owners. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    role: 'Led the backend development including booking logic, user auth, and integrating MongoDB with proper schema design. Also managed route protection and handled user sessions. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      "GameHubStation connects gamers with nearby gaming cafes, allowing Station Masters to list branches and Station Mates to discover and book consoles. With geolocation-based discovery, instant bookings, and real-time availability checks, the system offers seamless interactions. Users can filter by game type, branch ratings, and booking slots. Administrators can view analytics dashboards for popular games and peak hours. Station owners benefit from revenue reports and automated reminders.",
+    role: "Designed and implemented the RESTful API endpoints using Express.js, including authentication, station CRUD operations, and booking workflows. Created complex MongoDB aggregation pipelines for geospatial queries. Collaborated with frontend developers to define payloads and error handling strategies. Set up CI/CD pipelines for automated testing and deployment.",
     challenges:
-      'Designing an intuitive slot booking logic considering hourly constraints and preventing overlaps. Implementing secure and scalable API endpoints. Lorem ipsum dolor sit amet, consectetur.',
+      "Balancing real-time slot availability with concurrency control to prevent double bookings. Optimizing geolocation queries for performance at scale. Ensuring data consistency across distributed systems and handling edge cases like overlapping time zones, daylight saving adjustments, and partial cancellations.",
+    tech: "Built on a MERN stack: Node.js and Express.js power the backend API, MongoDB Atlas stores geospatial and user data, and React.js (optional) provides the frontend. Utilizes JWT for secure authentication, bcrypt for hashing, and Cloudinary for image uploads.",
     takeaways:
-      'Understood the complexities of real-time booking systems and refined MongoDB schema design and backend error handling. Lorem ipsum dolor sit amet.'
+      "Mastered geospatial querying in MongoDB and learned advanced concurrency control patterns. Gained deep understanding of CI/CD workflows and container orchestration. Improved skills in real-time data handling, fault tolerance, and system monitoring.",
   },
   {
-    id: 2,
-    title: 'SkillHub',
-    description:
-      'A portal for students to practice aptitude, solve coding questions, and track performance for placement readiness.',
-    image: '/templateImage.png',
-    link: '/work/2',
-    github: 'https://github.com/krisshJain/skillhub',
-    overview:
-      'SkillHub is a preparation platform that helps students get ready for placements with aptitude tests, coding questions, and performance analytics. It features test history, progress tracking, and personalized suggestions. Lorem ipsum dolor sit amet, consectetur.',
-    role: 'Managed backend logic for tests, submissions, and analytics dashboard. Integrated secure user flows and session tracking. Lorem ipsum.',
-    challenges:
-      'Structuring real-time evaluation of answers and tracking growth trends. Creating scalable schema design for performance. Lorem ipsum dolor sit amet.',
-    takeaways:
-      'Gained experience in analytics generation and optimizing query-heavy endpoints. Improved efficiency in server responses.'
-  },
-  {
-    id: 3,
-    title: 'Internship Marksheet Generator',
-    description:
-      'Generates internship reports with mentor verification and admin control, streamlining internship record-keeping.',
-    image: '/templateImage.png',
-    link: '/work/3',
-    github: 'https://github.com/krisshJain/internship-marksheet',
-    overview:
-      'Designed for academic use, this tool collects internship details from students, verifies them via mentors, and generates consolidated reports. Includes export to PDF and role-based dashboards. Lorem ipsum dolor sit.',
-    role: 'Built the full frontend interface with data submission and admin control logic. Managed data consistency and Firebase auth.',
-    challenges:
-      'Ensuring multi-role flow and accurate conditional rendering across mentor/admin/student views. Managing verification status and conflict resolution. Lorem ipsum dolor.',
-    takeaways:
-      'Improved role-based access handling and deepened knowledge of Firebase auth and Firestore rules. Developed cleaner data handling flows.'
-  },
-  {
-    id: 4,
-    title: 'AI Ticket Assistant',
-    description:
-      'An AI-powered assistant for automating customer support tickets, classifying issues, and suggesting resolutions.',
-    image: '/templateImage.png',
-    link: '/work/4',
-    github: 'https://github.com/krisshJain/ai-ticket-assistant',
-    overview:
-      'AI Ticket Assistant leverages LLMs to read, categorize, and resolve support tickets. It reduces manual overhead and enhances support accuracy. Built using prompt engineering and fallback systems to handle uncertainty. Lorem ipsum dolor sit amet.',
-    role: 'Integrated LLM API, structured ticket pipelines, and handled error fallback for unresolvable issues. Designed a feedback loop for continuous improvement. Lorem ipsum dolor.',
-    challenges:
-      'Handling unexpected ticket formats and training prompts for reliable classification. Dealing with LLM hallucinations and incomplete responses. Lorem ipsum dolor sit amet.',
-    takeaways:
-      'Learned how to fine-tune prompts and build fallback systems around AI APIs for reliability. Improved skills in async flows and API error management. Lorem ipsum.'
-  }
+  id: 2,
+  title: 'AI Ticket Assistant',
+  description:
+    'An AI-powered assistant for automating customer support tickets, classifying issues, and suggesting resolutions.',
+  image: '/templateImage.png',
+  link: '/work/2',
+  github: 'https://github.com/KrrishJain/AI-Ticket-Assistant',
+  overview:
+    'AI Ticket Assistant is designed to revolutionize traditional customer support workflows. It reads incoming support tickets, classifies them using LLMs, and provides recommended solutions with high accuracy. It reduces agent workload by automating repetitive tasks and intelligently escalating complex issues. The system integrates with customer CRMs and enables contextual support through API-connected data streams.',
+  role:
+    'I was responsible for integrating the AI model and designing the flow from ticket submission to resolution. This included setting up the LLM communication layer, defining fallback rules, and ensuring ticket metadata and history are preserved. I also implemented secured API routes, JWT-based role authentication, and an admin dashboard for real-time system monitoring.',
+  challenges:
+    'As it was my first time dealing with an AI agent project, integrating AI posed unique challenges including handling unpredictability in responses, prompt design, and fallback systems. Ensuring consistent outputs from the AI, setting confidence thresholds for auto-responses, and debugging LLM behavior was also a learning curve.',
+  takeaways:
+    'Through this project, I gained hands-on experience in building production-ready AI workflows. I learned how to work with event-driven systems, structure scalable APIs, and manage role-based access control effectively. Understanding the importance of user feedback loops and how to improve AI reliability through metrics was a key takeaway.',
+  tech:
+    'MERN Stack, Inngest AI, Inngest Event-Driven Architecture, JWT and Auth.'
+}
+
 ];
