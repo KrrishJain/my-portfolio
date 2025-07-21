@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { IoMdClose } from "react-icons/io";
+
 
 const Navbar = ({ currentPage = 'Home' }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -61,7 +63,7 @@ const Navbar = ({ currentPage = 'Home' }) => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`font-medium text-xs py-2 px-3 rounded-2xl transition-all duration-200 block ${
+                    className={`font-medium text-xs py-2 px-5 rounded-full transition-all duration-200 block ${
                       isActive(item.name)
                         ? 'bg-black text-white drop-shadow-lg' 
                         : 'cursor-pointer hover:bg-black/5'
@@ -116,7 +118,7 @@ const Navbar = ({ currentPage = 'Home' }) => {
               className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-200'
               aria-label="Close menu"
             >
-              <span className='text-2xl text-gray-600'>×</span>
+              <span className='text-xl text-black'><IoMdClose /></span>
             </button>
           </div>
 
@@ -128,7 +130,7 @@ const Navbar = ({ currentPage = 'Home' }) => {
                   <Link
                     href={item.href}
                     onClick={closeMenu}
-                    className={`font-medium text-base py-4 px-6 rounded-2xl transition-all duration-200 block ${
+                    className={`font-medium text-base py-2 px-6 rounded-2xl transition-all duration-200 block ${
                       isActive(item.name)
                         ? 'bg-black text-white drop-shadow-lg' 
                         : 'text-black hover:bg-gray-100'
