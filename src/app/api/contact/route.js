@@ -13,21 +13,87 @@ export async function POST(request) {
       );
     }
 
+    // Explicit environment variable mapping with fallbacks
+    const smtpConfig = {
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: (process.env.SMTP_SECURE || 'false').toLowerCase() === 'true',
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+      fromEmail: process.env.SMTP_FROM_EMAIL,
+      toEmail: process.env.SMTP_TO_EMAIL,
+    };
+
+    // Log the actual configuration being used (remove sensitive data)
+    console.log('SMTP Configuration:', {
+      host: smtpConfig.host,
+      port: smtpConfig.port,
+      secure: smtpConfig.secure,
+      user: smtpConfig.user ? `${smtpConfig.user.substring(0, 3)}***` : 'NOT SET',
+      pass: smtpConfig.pass ? 'SET' : 'NOT SET',
+      fromEmail: smtpConfig.fromEmail ? `${smtpConfig.fromEmail.substring(0, 3)}***` : 'NOT SET',
+      toEmail: smtpConfig.toEmail ? `${smtpConfig.toEmail.substring(0, 3)}***` : 'NOT SET'
+    });
+
+    // Check if critical environment variables are set
+    if (!smtpConfig.user || !smtpConfig.pass || !smtpConfig.fromEmail || !smtpConfig.toEmail) {
+      const missing = [];
+      if (!smtpConfig.user) missing.push('SMTP_USER');
+      if (!smtpConfig.pass) missing.push('SMTP_PASS');
+      if (!smtpConfig.fromEmail) missing.push('SMTP_FROM_EMAIL');
+      if (!smtpConfig.toEmail) missing.push('SMTP_TO_EMAIL');
+      
+      console.error('Missing critical environment variables:', missing);
+      return NextResponse.json(
+        { error: 'Server configuration error', details: `Missing: ${missing.join(', ')}` },
+        { status: 500 }
+      );
+    }
+
     // Create transporter object using SMTP
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+      host: smtpConfig.host,
+      port: smtpConfig.port,
+      secure: smtpConfig.secure,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: smtpConfig.user,
+        pass: smtpConfig.pass,
       },
+      // Add additional options for better compatibility
+      tls: {
+        rejectUnauthorized: false // This helps with some hosting providers
+      },
+      connectionTimeout: 60000, // 60 seconds
+      greetingTimeout: 30000, // 30 seconds
+      socketTimeout: 60000, // 60 seconds
     });
+
+    // Test the connection with more detailed error reporting
+    try {
+      console.log(`Attempting to connect to ${smtpConfig.host}:${smtpConfig.port}`);
+      await transporter.verify();
+      console.log('SMTP connection verified successfully');
+    } catch (verifyError) {
+      console.error('SMTP verification failed:', {
+        message: verifyError.message,
+        code: verifyError.code,
+        command: verifyError.command,
+        response: verifyError.response
+      });
+      return NextResponse.json(
+        { 
+          error: 'SMTP connection failed', 
+          details: verifyError.message,
+          config: `Trying to connect to ${smtpConfig.host}:${smtpConfig.port}`
+        },
+        { status: 500 }
+      );
+    }
 
     // Email content for you (receiving the contact form submission)
     const mailOptions = {
-      from: process.env.SMTP_FROM_EMAIL,
-      to: process.env.SMTP_TO_EMAIL, // Your email address
+      from: smtpConfig.fromEmail,
+      to: smtpConfig.toEmail, // Your email address
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -51,7 +117,7 @@ export async function POST(request) {
 
     // Auto-reply email to the sender
     const autoReplyOptions = {
-      from: process.env.SMTP_FROM_EMAIL,
+      from: smtpConfig.fromEmail,
       to: email,
       subject: 'Thank you for contacting me!',
       html: `
@@ -81,17 +147,30 @@ export async function POST(request) {
     };
 
     // Send both emails
-    await transporter.sendMail(mailOptions);
-    await transporter.sendMail(autoReplyOptions);
+    try {
+      console.log('Sending notification email...');
+      await transporter.sendMail(mailOptions);
+      console.log('Notification email sent successfully');
+      
+      console.log('Sending auto-reply email...');
+      await transporter.sendMail(autoReplyOptions);
+      console.log('Auto-reply email sent successfully');
+    } catch (emailError) {
+      console.error('Error sending emails:', emailError);
+      return NextResponse.json(
+        { error: 'Failed to send email', details: emailError.message },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { message: 'Email sent successfully' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('Unexpected error:', error);
     return NextResponse.json(
-      { error: 'Failed to send email' },
+      { error: 'Failed to send email', details: error.message },
       { status: 500 }
     );
   }

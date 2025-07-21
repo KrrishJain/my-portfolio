@@ -17,13 +17,13 @@ const Footer = () => {
         <a href="https://linkedin.com/in/krish-jain-437b07268/" target="_blank" rel="noopener noreferrer">
           <IoLogoLinkedin className="text-lg hover:text-primary transition-all" />
         </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com/jain_krish_/" target="_blank" rel="noopener noreferrer">
           <FaInstagram className="text-lg hover:text-primary transition-all" />
         </a>
         <a href="https://github.com/KrrishJain" target="_blank" rel="noopener noreferrer">
           <FaGithub className="text-lg hover:text-primary transition-all" />
         </a>
-        <a href="mailto:krishjain167@gmail.com">
+        <a href="mailto:krishjain167@gmail.com" target="_blank" rel="noopener noreferrer">
           <FaEnvelope className="text-lg hover:text-primary transition-all" />
         </a>
       </div>

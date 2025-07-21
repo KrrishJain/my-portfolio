@@ -5,7 +5,7 @@ export const projectDetails = [
     title: "GameHubStation",
     description:
       "A powerful backend API that connects gamers with gaming cafes using real-time booking and geolocation features. Station Masters can register multiple branches, upload game inventories, and manage bookings, while Station Mates enjoy intuitive search and instant reservations.",
-    image: "/templateImage.png",
+    image: "/GameHubStation.png",
     link: "/work/1",
     github: "https://github.com/KrrishJain/GameHubStation",
     overview:
@@ -22,7 +22,7 @@ export const projectDetails = [
   title: 'AI Ticket Assistant',
   description:
     'An AI-powered assistant for automating customer support tickets, classifying issues, and suggesting resolutions.',
-  image: '/templateImage.png',
+  image: '/AITicketAssistant.png',
   link: '/work/2',
   github: 'https://github.com/KrrishJain/AI-Ticket-Assistant',
   overview:

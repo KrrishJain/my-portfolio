@@ -146,7 +146,7 @@ const ContactPage = () => {
                 <IoLogoLinkedin className="text-xl hover:text-primary transition-all" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/jain_krish_/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -159,7 +159,7 @@ const ContactPage = () => {
               >
                 <FaGithub className="text-xl hover:text-primary transition-all" />
               </a>
-              <a href="mailto:krishjain167@gmail.com">
+              <a href="mailto:krishjain167@gmail.com" target="_blank" rel="noopener noreferrer">
                 <FaEnvelope className="text-xl hover:text-primary transition-all" />
               </a>
             </div>
