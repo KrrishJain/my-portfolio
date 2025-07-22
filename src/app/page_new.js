@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Navbar from "@/components/Navbar";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Card from "@/components/Card";
 import { projectDetails } from "@/data/projectDetails";
 import { experienceDetails } from "@/data/experienceDetails";
@@ -87,7 +87,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      
       {/* Experience Section */}
       <div className="w-full px-5 md:px-[10vw] py-[5vh]">
         <div className="w-full mx-auto">
@@ -99,7 +99,7 @@ const Home = () => {
                 My journey through education, research, and professional development.
               </p>
             </div>
-
+            
             {/* Right side - Experience items */}
             <div className="md:w-2/3">
               <div className="grid grid-cols-1 md:grid-cols-1 gap-3">
@@ -128,7 +128,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      
       {/* Work Section */}
       <div className="flex justify-center items-center">
         <div
@@ -147,24 +147,30 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+      
       {/* Resume Download Section */}
       <div className="w-full min-h-[60vh] mt-10 flex justify-center items-center">
         <div className="w-2xl space-y-2 text-center">
           <h1 className="text-[30px] md:text-[40px] text-center text-black">
             Want to know more about my journey?
           </h1>
-          <p className="md:text-base text-center text-[#4D4D4D] px-4 md:px-8">
+          <p className="md:text-base text-center text-[#4D4D4D]">
             Download my resume to explore my complete professional experience and skills.
           </p>
           <div className="flex mt-5 justify-center items-center gap-4">
-            <a
-              href="/Krish_Jain_Resume.pdf"
-              download
+            <button 
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = '/resume.pdf';
+                link.download = 'Krrish_Jain_Resume.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }}
               className="bg-accent hover:bg-accent/50 cursor-pointer transition-all duration-300 px-6 font-medium py-2 rounded-full text-xs"
             >
               Download Resume
-            </a>
+            </button>
           </div>
         </div>
       </div>
